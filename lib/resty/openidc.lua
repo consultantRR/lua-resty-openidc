@@ -164,10 +164,22 @@ local function openidc_authorize(opts, session)
     nonce=nonce
   }
 
+ngx.log(ngx.ERR, "[MAP OIDC TEST] begin-oidc-logging")
+
   -- merge any provided extra parameters
   if opts.authorization_params then
+    ngx.log(ngx.ERR, "[MAP OIDC TEST] auth params found")
     for k,v in pairs(opts.authorization_params) do params[k] = v end
+    for k,v in pairs(opts.authorization_params) do ngx.log(ngx.ERR, "[MAP OIDC TEST] auth param: ", k, " => ", v) end
+  else
+    ngx.log(ngx.ERR, "[MAP OIDC TEST] auth params NOT found")
   end
+
+    ngx.log(ngx.ERR, "[MAP OIDC TEST] about to log global params")
+    for k,v in pairs(params) do ngx.log(ngx.ERR, "[MAP OIDC TEST] global param: ", k, " => ", v) end
+
+ngx.log(ngx.ERR, "[MAP OIDC TEST] end-oidc-logging")
+
 
   -- store state in the session
   session.data.original_url = ngx.var.uri
